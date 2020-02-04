@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>  
+  <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+  <script type="text/javascript">
+    ShopifyApp.init({
+      apiKey: '{{apiKey}}',
+      shopOrigin: 'https://'+ "{{shop}}",
+      forceRedirect:true,
+      debug: true,
+    });
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.11.0/styles.min.css"/>
+  {{{_sections.head}}}
+<body>
+<div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb;">
+  <div class="Polaris-Layout">
+    <div class="Polaris-Layout__Section">
+      <div class="Polaris-Card">
+        <div class="Polaris-Card__Header">
+          <h2 class="Polaris-Heading">{{heading}}</h2>
+        </div>
+        <div class="Polaris-Card__Section">          
+          {{{body}}}
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<script type="text/javascript">
+
+  
+var breadcrumb = {
+  label: '{{breadcrumb}}',
+  href: '{{breadcrumb_link}}',
+  target: 'app',
+}
+
+var titleBarOptions = {
+  title: '{{title}}',
+  {{#if breadcrumb}}
+  breadcrumb: breadcrumb,
+  {{/if}}
+
+  
+}
+
+ShopifyApp.ready(function() {
+  ShopifyApp.Bar.initialize(titleBarOptions);  
+  
+  ShopifyApp.Modal.confirm("Are you sure you want to?", function(result){
+  if(result){
+    alert("yeah they're sure");
+  }
+  else{
+    alert("no, lets not");
+  }
+});
+});
+
+</script>
+
+{{{_sections.js}}}
+</body>
+</html>

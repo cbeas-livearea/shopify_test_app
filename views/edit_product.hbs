@@ -1,0 +1,72 @@
+<div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb;">
+  <form action="/update_product/{{product.id}}" id="form_edit_product" product_id={{product.id}}>
+  <div class="Polaris-FormLayout">
+    <div class="Polaris-FormLayout__Item">
+      <div class="">
+        <div class="Polaris-Labelled__LabelWrapper">
+          <div class="Polaris-Label"><label id="PolarisTextField15Label" for="PolarisTextField15" class="Polaris-Label__Text">Name</label></div>
+        </div>
+        <div class="Polaris-Connected">
+          <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+            <div class="Polaris-TextField"><input type="text" id="PolarisTextField15" class="Polaris-TextField__Input" aria-labelledby="PolarisTextField15Label" aria-invalid="false" aria-multiline="false" name="title" value="{{product.title}}">
+              <div class="Polaris-TextField__Backdrop"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  <div class="Polaris-FormLayout__Item">
+      <div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb;"><button type="button" class="Polaris-Button Polaris-Button--primary" id="update_product"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Save</span></span></button></div
+    </div> 
+
+  </div>
+
+  </form>
+</div>
+
+
+
+{{#section 'js'}}
+
+
+<script>
+
+$( "#update_product" ).click(function() {
+    $( "#form_edit_product" ).submit();
+
+});
+
+
+  $(document).ready(function(){
+  $('#form_edit_product').on('submit', function(evt){
+    
+    evt.preventDefault();
+    var action = $(this).attr('action');
+    var values = $(this).serialize();
+    var productid=$("#form_edit_product").attr("product_id");
+
+    ShopifyApp.Bar.loadingOn();
+    $.ajax({
+    url: action,
+    type: 'POST',
+    data: values ,
+    success: function(data)
+    {
+    
+      //alert('Thank yous!: '+data);
+      ShopifyApp.flashNotice("Product Saved Successfully");
+
+      ShopifyApp.Bar.loadingOff();
+      $(location).attr('href',"/edit_product/"+productid);
+      
+    },
+    error: function()
+    {
+      ShopifyApp.Bar.loadingOff();
+      ShopifyApp.flashError("Warning: Product Saved Failed");
+    }
+    });
+    });
+      });
+</script>
+{{/section}}
